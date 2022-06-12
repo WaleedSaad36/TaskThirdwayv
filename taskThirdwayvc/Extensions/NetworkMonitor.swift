@@ -32,6 +32,7 @@ final class NetWorkMonitor{
     public func stopMoitoring(){
         monitor.cancel()
     }
+    
     private func getConnectionType(path:NWPath){
         if path.usesInterfaceType(.wifi){
             connectionType = .wifi
@@ -49,5 +50,4 @@ final class NetWorkMonitor{
         case etherNet
         case unknow
     }
-
 }

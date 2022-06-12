@@ -7,12 +7,11 @@
 
 import UIKit
 import Network
+
 protocol ProductListVCProtocol:class {
     func reloadCollectionView()
     func showAlert()
     func convertURLImageToData(urls:String) -> Data
-//    func getCoreData(ProductList: ProductListResponse)
-    
 }
 
 class ProductListVC: UIViewController {
@@ -29,14 +28,16 @@ class ProductListVC: UIViewController {
         productListView.collectionView.collectionViewLayout = UICollectionViewFlowLayout()
         self.viewModel?.checkChooseFetchingData()
         configerCollectionView()
+
     }
-    
+    //MARK:- configrationCollectionView + RegisterNib
     private func configerCollectionView(){
         self.productListView.collectionView.delegate = self
         self.productListView.collectionView.dataSource = self
         self.productListView.collectionView.registerNib(cell: ProductListCell.self)
     }
 }
+//MARK:- conform Protocol ViewController
 extension ProductListVC:ProductListVCProtocol{
     func showAlert() {
         let alert = UIAlertController(title: "no Internet ", message: "The App Requiers Wifi or celluar", preferredStyle: .alert)
@@ -50,9 +51,12 @@ extension ProductListVC:ProductListVCProtocol{
         self.productListView.collectionView.reloadData()
     }
 }
+
+//MARK:- Conform Delegate Protocol
 extension ProductListVC : UICollectionViewDelegate{
     
 }
+//MARK:- Conform DataSource Protocol
 extension ProductListVC: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -78,11 +82,12 @@ extension ProductListVC: UICollectionViewDataSource{
         guard let data = viewModel?.getProductListCount() else {return}
         let lastItem = data-1
         if indexPath.item >= lastItem{
-            viewModel?.callProductListAPI()
+            viewModel?.fetchProductListAPI()
         }
+        productListView.reloadAnimationCollectionView(cell: cell)
     }
 }
-
+//MARK:- Conform UICollectionViewDelegateFlowLayout
 extension ProductListVC:UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = (collectionView.frame.size.width - 10) / 2

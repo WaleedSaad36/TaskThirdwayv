@@ -18,4 +18,5 @@ extension UICollectionView {
         let nibName = String(describing: header)
         self.register(UINib(nibName: nibName, bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: nibName)
     }
+    
 }
